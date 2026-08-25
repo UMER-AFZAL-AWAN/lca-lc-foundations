@@ -1,0 +1,33 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Jupyter Lab (repo env)",
+      "type": "debugpy",
+      "request": "launch",
+      "module": "jupyterlab",
+      "cwd": "${workspaceFolder}",
+      "python": "${workspaceFolder}\\.venv\\Scripts\\python.exe",
+      "args": [
+        "--no-browser",
+        "--ServerApp.ip=127.0.0.1",
+        "--port=8888"
+      ],
+      "console": "integratedTerminal",
+      "justMyCode": false,
+      "env": {
+        "PYTHONPATH": "${workspaceFolder}"
+      }
+    },
+    {
+      "name": "Python: Current File",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${file}",
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}",
+      "justMyCode": false,
+      "python": "${workspaceFolder}\\.venv\\Scripts\\python.exe"
+    }
+  ]
+}

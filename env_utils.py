@@ -11,6 +11,20 @@ import re
 from pathlib import Path
 
 
+def ensure_utf8_stdout():
+    """Force UTF-8 output when the active Windows console is not UTF-8 capable."""
+    try:
+        if hasattr(sys.stdout, "reconfigure"):
+            sys.stdout.reconfigure(encoding="utf-8")
+        if hasattr(sys.stderr, "reconfigure"):
+            sys.stderr.reconfigure(encoding="utf-8")
+    except (AttributeError, ValueError, OSError):
+        pass
+
+
+ensure_utf8_stdout()
+
+
 # ========== EARLY PYTHON ENVIRONMENT DIAGNOSTICS ==========
 def check_python_executable_and_version():
     """

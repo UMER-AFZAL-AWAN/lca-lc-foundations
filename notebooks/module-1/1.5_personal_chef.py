@@ -1,8 +1,10 @@
+import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
 from langchain.tools import tool
+from langchain_openai import ChatOpenAI
 from typing import Dict, Any
 from tavily import TavilyClient
 
@@ -27,8 +29,14 @@ Return recipe suggestions and eventually the recipe instructions to the user, if
 
 from langchain.agents import create_agent
 
+model = ChatOpenAI(
+    model=os.getenv("OPENAI_MODEL", "llama3:latest"),
+    openai_api_key=os.getenv("OPENAI_API_KEY", "ollama"),
+    openai_api_base=os.getenv("OPENAI_BASE_URL", "http://localhost:11434/v1"),
+)
+
 agent = create_agent(
-    model="gpt-5-nano",
+    model=model,
     tools=[web_search],
-    system_prompt=system_prompt
+    system_prompt=system_prompt,
 )

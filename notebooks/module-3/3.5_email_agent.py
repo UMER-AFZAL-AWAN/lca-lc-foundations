@@ -1,3 +1,4 @@
+import os
 from dotenv import load_dotenv
 from dataclasses import dataclass
 from langchain.agents import AgentState, create_agent
@@ -6,6 +7,7 @@ from langgraph.types import Command
 from langchain.messages import ToolMessage
 from langchain.agents.middleware import wrap_model_call, dynamic_prompt, HumanInTheLoopMiddleware
 from langchain.agents.middleware import ModelRequest, ModelResponse
+from langchain_openai import ChatOpenAI
 from typing import Callable
 
 load_dotenv()
@@ -92,8 +94,14 @@ def dynamic_prompt_func(request: ModelRequest) -> str:
         return unauthenticated_prompt
 
 
+model = ChatOpenAI(
+    model=os.getenv("OPENAI_MODEL", "llama3:latest"),
+    openai_api_key=os.getenv("OPENAI_API_KEY", "ollama"),
+    openai_api_base=os.getenv("OPENAI_BASE_URL", "http://localhost:11434/v1"),
+)
+
 agent = create_agent(
-        "gpt-5-nano",
+        model,
         tools=[authenticate, check_inbox, send_email],
         state_schema=AuthenticatedState,
         context_schema=EmailContext,

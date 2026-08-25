@@ -6,6 +6,43 @@ Welcome to LangChain Academy's **Introduction to LangChain** course!
 
 This repository is the companion to the course located [HERE](https://academy.langchain.com/courses/foundation-introduction-to-langchain-python).
 
+## Local Ollama + VS Code Setup Notes
+
+This fork was set up to run the course material against a local Ollama model instead of requiring a hosted OpenAI key for every notebook and example. The goal was to keep the environment portable, use one shared `.env` configuration across examples, and be able to debug notebooks from VS Code with breakpoints.
+
+The working configuration used for local testing was:
+
+```env
+OPENAI_API_KEY=ollama
+OPENAI_BASE_URL=http://localhost:11434/v1
+OPENAI_MODEL=llama3:latest
+```
+
+This enables LangChain examples that use the OpenAI-compatible client to connect to the Ollama server running locally on Docker or as a local service.
+
+Useful commands:
+
+```bash
+# Activate the repo virtual environment on Windows
+.\.venv\Scripts\Activate.ps1
+
+# Verify the environment is working
+python env_utils.py
+
+# Run Jupyter Lab directly from VS Code's debugger
+# Use the config in .vscode/launch.json
+
+# Run LangGraph Studio from the module folder that contains langgraph.json
+cd notebooks\module-1
+langgraph dev
+```
+
+Why the root `langgraph dev` command failed:
+- the repo root does not contain `langgraph.json`
+- the config file lives in the lesson folders, such as `notebooks/module-1` and `notebooks/module-3`
+
+This repo is intended for learning, experimentation, and local development. The environment settings are stored in `.env`, which is intentionally excluded from Git to avoid committing local secrets or machine-specific configuration.
+
 ---
 
 ## 🚀 Setup
